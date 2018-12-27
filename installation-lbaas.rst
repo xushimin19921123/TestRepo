@@ -17,7 +17,8 @@ Setup & Installation
 
     `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L586>`_
 
-    .. code-block:: console
+.. code-block:: console
+
     **build_mgmt_network**
     **OCTAVIA_AMP_NETWORK_ID=$(openstack network show lb-mgmt-net -f value -c id)**
     **iniset $OCTAVIA_CONF controller_worker amp_boot_network_list ${OCTAVIA_AMP_NETWORK_ID}**
