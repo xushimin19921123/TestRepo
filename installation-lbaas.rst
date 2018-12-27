@@ -10,21 +10,21 @@ Installation guide for LBaaS in Tricircle
 Setup & Installation
 ^^^^^^^^^^^^^^^^^^^^
 
-- 1 For the node1 in RegionOne, clone the code from Octavia repository to/opt/stack/.
+- 1 For the node1 in RegionOne, clone the code from Octavia repository to /opt/stack/ .
   Then make some changes to Octavia, so that we can build the management network in multiple regions manually.
 
   - First, comment the following eleven lines in the **octavia_init** function in octavia/devstack/plugin.sh .
 
     `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L586>`_
-    **build_mgmt_network**
-    **OCTAVIA_AMP_NETWORK_ID=$(openstack network show lb-mgmt-net -f value -c id)**
-    **iniset $OCTAVIA_CONF controller_worker amp_boot_network_list ${OCTAVIA_AMP_NETWORK_ID}**
+    - **build_mgmt_network**
+    - **OCTAVIA_AMP_NETWORK_ID=$(openstack network show lb-mgmt-net -f value -c id)**
+    - **iniset $OCTAVIA_CONF controller_worker amp_boot_network_list ${OCTAVIA_AMP_NETWORK_ID}**
 
-
+    `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
     **if is_service_enabled tempest; then**
     **    configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
     **fi**
-    https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593
+
 
     **if is_service_enabled tempest; then**
     **    configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
