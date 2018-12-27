@@ -16,26 +16,25 @@ Setup & Installation
   - First, comment the following eleven lines in the **octavia_init** function in octavia/devstack/plugin.sh .
 
     `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L586>`_
-
-.. code-block:: console
-
-    **build_mgmt_network**
-    **OCTAVIA_AMP_NETWORK_ID=$(openstack network show lb-mgmt-net -f value -c id)**
-    **iniset $OCTAVIA_CONF controller_worker amp_boot_network_list ${OCTAVIA_AMP_NETWORK_ID}**
+    - **build_mgmt_network**
+      **OCTAVIA_AMP_NETWORK_ID=$(openstack network show lb-mgmt-net -f value -c id)**
+      **iniset $OCTAVIA_CONF controller_worker amp_boot_network_list ${OCTAVIA_AMP_NETWORK_ID}**
 
     `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
-    **if is_service_enabled tempest; then**
-    **    configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
-    **fi**
+    - **if is_service_enabled tempest; then**
+      **    configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
+      **fi**
 
+    `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
+    - **if is_service_enabled tempest; then**
+      **    configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
+      **fi**
 
-    **if is_service_enabled tempest; then**
-    **    configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
-    **fi**
+    `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
+    - **create_mgmt_network_interface**
 
-    **create_mgmt_network_interface**
-
-    **configure_lb_mgmt_sec_grp**
+    `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
+    - **configure_lb_mgmt_sec_grp**
 
   - Second, comment the following three lines in the **octavia_start** function in octavia/devstack/plugin.sh .
 
