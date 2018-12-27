@@ -13,7 +13,7 @@ Setup & Installation
 - 1 For the node1 in RegionOne, clone the code from Octavia repository to /opt/stack/ .
   Then make some changes to Octavia, so that we can build the management network in multiple regions manually.
 
-  - First, comment the following eleven lines in the **octavia_init** function in octavia/devstack/plugin.sh .
+  - First, comment the following lines in the **octavia_init** function in octavia/devstack/plugin.sh .
 
     `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L586>`_
 
@@ -21,31 +21,33 @@ Setup & Installation
     - **OCTAVIA_AMP_NETWORK_ID=$(openstack network show lb-mgmt-net -f value -c id)**
     - **iniset $OCTAVIA_CONF controller_worker amp_boot_network_list ${OCTAVIA_AMP_NETWORK_ID}**
 
-    `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
+    `Line 593-595 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
 
     - **if is_service_enabled tempest; then**
-    - **    configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
+    -     **configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
     - **fi**
 
-    `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
+    `Line 602-604 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L602>`_
 
     - **if is_service_enabled tempest; then**
-    - **    configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
+    -     **configure_octavia_tempest ${OCTAVIA_AMP_NETWORK_ID}**
     - **fi**
 
-    `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
+    `Line 610 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L610>`_
 
     - **create_mgmt_network_interface**
 
-    `Line 586-588 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L593>`_
+    `Line 612 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L612>`_
 
     - **configure_lb_mgmt_sec_grp**
 
   - Second, comment the following three lines in the **octavia_start** function in octavia/devstack/plugin.sh .
 
-    **if  ! ps aux | grep -q [o]-hm0 && [ $OCTAVIA_NODE != 'api' ] ; then**
-    **    sudo dhclient -v o-hm0 -cf $OCTAVIA_DHCLIENT_CONF**
-    **fi**
+    `Line 465-467 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L465>`_
+
+    - **if  ! ps aux | grep -q [o]-hm0 && [ $OCTAVIA_NODE != 'api' ] ; then**
+    -     **sudo dhclient -v o-hm0 -cf $OCTAVIA_DHCLIENT_CONF**
+    - **fi**
 
 - 2 Follow "Multi-pod Installation with DevStack" document `Multi-pod Installation with DevStack <https://docs.openstack.org/tricircle/latest/install/installation-guide.html#multi-pod-installation-with-devstack>`_
   to prepare your local.conf for the node1 in RegionOne, and add the
