@@ -103,24 +103,24 @@ Prerequisite
   use admin account to query and use the management network as well as
   security group created in the following steps
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ source openrc admin admin
+        $ source openrc admin admin
 
 - 2 Then unset the region name environment variable, so that the command can be
   issued to specified region in following commands as needed.
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ unset OS_REGION_NAME
+        $ unset OS_REGION_NAME
 
 - 3 Before configure LBaaS, we need to create pods in CentralRegion, i.e., node1.
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ openstack multiregion networking pod create --region-name CentralRegion
-    $ openstack multiregion networking pod create --region-name RegionOne --availability-zone az1
-    $ openstack multiregion networking pod create --region-name RegionTwo --availability-zone az2
+        $ openstack multiregion networking pod create --region-name CentralRegion
+        $ openstack multiregion networking pod create --region-name RegionOne --availability-zone az1
+        $ openstack multiregion networking pod create --region-name RegionTwo --availability-zone az2
 
 Configuration
 ^^^^^^^^^^^^^
