@@ -53,7 +53,7 @@ Setup & Installation
   to prepare your local.conf for the node1 in RegionOne, and add the
   following lines before installation. Start DevStack in node1.
 
-.. code-block:: console
+    .. code-block:: console
 
     enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
     enable_plugin octavia https://github.com/openstack/octavia.git
@@ -88,7 +88,7 @@ Setup & Installation
   to prepare your local.conf for the node2 in RegionTwo, and add the
   following lines before installation. Start DevStack in node2.
 
-.. code-block:: console
+    .. code-block:: console
 
     enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
     enable_plugin octavia https://github.com/openstack/octavia.git
