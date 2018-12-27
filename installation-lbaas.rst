@@ -55,10 +55,10 @@ Setup & Installation
 
     .. code-block:: console
 
-    enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
-    enable_plugin octavia https://github.com/openstack/octavia.git
-    ENABLED_SERVICES+=,q-lbaasv2
-    ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
+        enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
+        enable_plugin octavia https://github.com/openstack/octavia.git
+        ENABLED_SERVICES+=,q-lbaasv2
+        ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
 
 - 3 If users only want to deploy Octavia in RegionOne, the following two
   steps can be skipped. After the installation in node1 is complete. For
@@ -90,10 +90,10 @@ Setup & Installation
 
     .. code-block:: console
 
-    enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
-    enable_plugin octavia https://github.com/openstack/octavia.git
-    ENABLED_SERVICES+=,q-lbaasv2
-    ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
+        enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
+        enable_plugin octavia https://github.com/openstack/octavia.git
+        ENABLED_SERVICES+=,q-lbaasv2
+        ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
 
 Prerequisite
 ^^^^^^^^^^^^
