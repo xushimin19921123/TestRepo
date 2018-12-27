@@ -55,10 +55,10 @@ Setup & Installation
 
 .. code-block:: console
 
-  enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
-  enable_plugin octavia https://github.com/openstack/octavia.git
-  ENABLED_SERVICES+=,q-lbaasv2
-  ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
+    enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
+    enable_plugin octavia https://github.com/openstack/octavia.git
+    ENABLED_SERVICES+=,q-lbaasv2
+    ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
 
 - 3 If users only want to deploy Octavia in RegionOne, the following two
   steps can be skipped. After the installation in node1 is complete. For
@@ -69,16 +69,20 @@ Setup & Installation
     regions, we need to comment all **add_load-balancer_roles** lines in
     the **octavia_init** function in octavia/devstack/plugin.sh .
 
-  - Second, the same as Step 1, comment total fourteen lines of creating networking resources.
+    `Line 597 and Line 606 : <https://github.com/openstack/octavia/blob/master/devstack/plugin.sh#L597>`_
 
-  - Third, replace 'openstack keypair' with
-    'openstack --os-region-name=$REGION_NAME keypair'.
+    - **add_load-balancer_roles**
 
-  - Fourth, replace
-    'openstack image' with 'openstack --os-region-name=$REGION_NAME image'.
+  - Second, the same as Step 1, comment total fourteen lines of creating networking resources in the **octavia_init** function.
 
-  - Fifth, replace 'openstack flavor' with
-    'openstack --os-region-name=$REGION_NAME flavor'.
+  - Third, replace all **'openstack keypair'** with
+    **'openstack --os-region-name=$REGION_NAME keypair'**.
+
+  - Fourth, replace all **'openstack image'** with
+    **'openstack --os-region-name=$REGION_NAME image'**.
+
+  - Fifth, replace all **'openstack flavor'** with
+    **'openstack --os-region-name=$REGION_NAME flavor'**.
 
 - 4 Follow "Multi-pod Installation with DevStack" document `Multi-pod Installation with DevStack <https://docs.openstack.org/tricircle/latest/install/installation-guide.html#multi-pod-installation-with-devstack>`_
   to prepare your local.conf for the node2 in RegionTwo, and add the
@@ -86,10 +90,10 @@ Setup & Installation
 
 .. code-block:: console
 
-  enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
-  enable_plugin octavia https://github.com/openstack/octavia.git
-  ENABLED_SERVICES+=,q-lbaasv2
-  ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
+    enable_plugin neutron-lbaas https://github.com/openstack/neutron-lbaas.git
+    enable_plugin octavia https://github.com/openstack/octavia.git
+    ENABLED_SERVICES+=,q-lbaasv2
+    ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
 
 Prerequisite
 ^^^^^^^^^^^^
