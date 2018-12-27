@@ -243,19 +243,19 @@ Create the health management interface for Octavia in RegionOne.
     $ sudo ip link set dev o-hm0 address $MGMT_PORT_MAC
     $ sudo dhclient -v o-hm0 -cf $OCTAVIA_DHCLIENT_CONF
 
-    Listening on LPF/o-hm0/fa:16:3e:ea:1a:c9
-    Sending on   LPF/o-hm0/fa:16:3e:ea:1a:c9
+    Listening on LPF/o-hm0/fa:16:3e:61:fc:e7
+    Sending on   LPF/o-hm0/fa:16:3e:61:fc:e7
     Sending on   Socket/fallback
-    DHCPDISCOVER on o-hm0 to 255.255.255.255 port 67 interval 3 (xid=0xae9d2b51)
-    DHCPREQUEST of 192.168.1.5 on o-hm0 to 255.255.255.255 port 67 (xid=0x512b9dae)
-    DHCPOFFER of 192.168.1.5 from 192.168.1.2
-    DHCPACK of 192.168.1.5 from 192.168.1.2
-    bound to 192.168.1.5 -- renewal in 38734 seconds.
+    DHCPDISCOVER on o-hm0 to 255.255.255.255 port 67 interval 3 (xid=0x30200135)
+    DHCPREQUEST of 192.168.1.230 on o-hm0 to 255.255.255.255 port 67 (xid=0x35012030)
+    DHCPOFFER of 192.168.1.230 from 192.168.1.2
+    DHCPACK of 192.168.1.230 from 192.168.1.2
+    bound to 192.168.1.230 -- renewal in 40544 seconds.
 
     $ sudo iptables -I INPUT -i o-hm0 -p udp --dport 5555 -j ACCEPT
 
 
-.. note:: As shown in the console, DHCP server allocates 192.168.1.5 as the
+.. note:: As shown in the console, DHCP server allocates 192.168.1.230 as the
    IP of the health management interface, i.e., 0-hm. Hence, we need to
    modify the /etc/octavia/octavia.conf file to make Octavia aware of it and
    use the resources we just created, including health management interface,
@@ -264,21 +264,21 @@ Create the health management interface for Octavia in RegionOne.
 .. csv-table::
    :header: "Option", "Description", "Example"
 
-   [health_manager] bind_ip, "the ip of health manager in RegionOne", 192.168.1.5
+   [health_manager] bind_ip, "the ip of health manager in RegionOne", 192.168.1.230
    [health_manager] bind_port, "the port health manager listens on", 5555
-   [health_manager] controller_ip_port_list, "the ip and port of health manager binds in RegionOne", 192.168.1.5:5555
+   [health_manager] controller_ip_port_list, "the ip and port of health manager binds in RegionOne", 192.168.1.230:5555
    [controller_worker] amp_boot_network_list, "the id of amphora management network in RegionOne", "query neutron to obtain it, i.e., the id of lb-mgmt-net1 in this doc"
    [controller_worker] amp_secgroup_list, "the id of security group created for amphora in central region", "query neutron to obtain it, i.e., the id of lb-mgmt-sec-grp"
    [neutron] service_name, "The name of the neutron service in the keystone catalog", neutron
-   [neutron] endpoint, "Central neutron endpoint if override is necessary", http://192.168.56.5:20001/
+   [neutron] endpoint, "Central neutron endpoint if override is necessary", http://192.168.57.7:20001/
    [neutron] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", CentralRegion
    [neutron] endpoint_type, "Endpoint type", public
    [nova] service_name, "The name of the nova service in the keystone catalog", nova
-   [nova] endpoint, "Custom nova endpoint if override is necessary", http://192.168.56.5/compute/v2.1
+   [nova] endpoint, "Custom nova endpoint if override is necessary", http://192.168.57.7/compute/v2.1
    [nova] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionOne
    [nova] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
    [glance] service_name, "The name of the glance service in the keystone catalog", glance
-   [glance] endpoint, "Custom glance endpoint if override is necessary", http://192.168.56.5/image
+   [glance] endpoint, "Custom glance endpoint if override is necessary", http://192.168.57.7/image
    [glance] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionOne
    [glance] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
 
@@ -378,18 +378,18 @@ Create the health management interface for Octavia in RegionTwo.
     $ sudo ip link set dev o-hm0 address $MGMT_PORT_MAC
     $ sudo dhclient -v o-hm0 -cf $OCTAVIA_DHCLIENT_CONF
 
-    Listening on LPF/o-hm0/fa:16:3e:c3:7c:2b
-    Sending on   LPF/o-hm0/fa:16:3e:c3:7c:2b
+    Listening on LPF/o-hm0/fa:16:3e:56:bb:ad
+    Sending on   LPF/o-hm0/fa:16:3e:56:bb:ad
     Sending on   Socket/fallback
-    DHCPDISCOVER on o-hm0 to 255.255.255.255 port 67 interval 3 (xid=0xc75c651f)
-    DHCPREQUEST of 192.168.2.11 on o-hm0 to 255.255.255.255 port 67 (xid=0x1f655cc7)
-    DHCPOFFER of 192.168.2.11 from 192.168.2.2
-    DHCPACK of 192.168.2.11 from 192.168.2.2
-    bound to 192.168.2.11 -- renewal in 35398 seconds.
+    DHCPDISCOVER on o-hm0 to 255.255.255.255 port 67 interval 3 (xid=0xdfdc8762)
+    DHCPREQUEST of 192.168.2.107 on o-hm0 to 255.255.255.255 port 67 (xid=0x6287dcdf)
+    DHCPOFFER of 192.168.2.107 from 192.168.2.2
+    DHCPACK of 192.168.2.107 from 192.168.2.2
+    bound to 192.168.2.107 -- renewal in 38485 seconds.
 
     $ sudo iptables -I INPUT -i o-hm0 -p udp --dport 5555 -j ACCEPT
 
-.. note:: The ip allocated by DHCP server, i.e., 192.168.2.11 in this case,
+.. note:: The ip allocated by DHCP server, i.e., 192.168.2.107 in this case,
    is the bound and listened by health manager of Octavia. Please note that
    it will be used in the configuration file of Octavia.
 
@@ -398,21 +398,21 @@ Modify the /etc/octavia/octavia.conf in node2.
 .. csv-table::
    :header: "Option", "Description", "Example"
 
-   [health_manager] bind_ip, "the ip of health manager in RegionTwo", 192.168.2.11
+   [health_manager] bind_ip, "the ip of health manager in RegionTwo", 192.168.2.107
    [health_manager] bind_port, "the port health manager listens on in RegionTwo", 5555
-   [health_manager] controller_ip_port_list, "the ip and port of health manager binds in RegionTwo", 192.168.2.11:5555
+   [health_manager] controller_ip_port_list, "the ip and port of health manager binds in RegionTwo", 192.168.2.107:5555
    [controller_worker] amp_boot_network_list, "the id of amphora management network in RegionTwo", "query neutron to obtain it, i.e., the id of lb-mgmt-net2 in this doc"
    [controller_worker] amp_secgroup_list, "the id of security group created for amphora in central region", "query neutron to obtain it, i.e., the id of lb-mgmt-sec-grp"
    [neutron] service_name, "The name of the neutron service in the keystone catalog", neutron
-   [neutron] endpoint, "Central neutron endpoint if override is necessary", http://192.168.56.6:20001/
+   [neutron] endpoint, "Central neutron endpoint if override is necessary", http://192.168.57.7:20001/
    [neutron] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", CentralRegion
    [neutron] endpoint_type, "Endpoint type", public
    [nova] service_name, "The name of the nova service in the keystone catalog", nova
-   [nova] endpoint, "Custom nova endpoint if override is necessary", http://192.168.56.6/compute/v2.1
+   [nova] endpoint, "Custom nova endpoint if override is necessary", http://192.168.57.8/compute/v2.1
    [nova] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionTwo
    [nova] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
    [glance] service_name, "The name of the glance service in the keystone catalog", glance
-   [glance] endpoint, "Custom glance endpoint if override is necessary", http://192.168.56.6/image
+   [glance] endpoint, "Custom glance endpoint if override is necessary", http://192.168.57.8/image
    [glance] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionTwo
    [glance] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
 
@@ -549,59 +549,43 @@ Create two instances, i.e., backend1 and backend2, in RegionOne, which reside in
 
 .. code-block:: console
 
-    $ nova --os-region-name=RegionOne boot --flavor 1 --image $image_id --nic net-id=$net1_id backend1
-    $ nova --os-region-name=RegionOne boot --flavor 1 --image $image_id --nic net-id=$net1_id backend2
+    $ openstack --os-region-name CentralRegion server create --flavor 1 --image $image_id --nic net-id=$net_id --availability-zone az1 backend1
+    $ openstack --os-region-name CentralRegion server create --flavor 1 --image $image_id --nic net-id=$net_id --availability-zone az1 backend2
 
-    +--------------------------------------+-----------------------------------------------------------------+
-    | Property                             | Value                                                           |
-    +--------------------------------------+-----------------------------------------------------------------+
-    | OS-DCF:diskConfig                    | MANUAL                                                          |
-    | OS-EXT-AZ:availability_zone          |                                                                 |
-    | OS-EXT-SRV-ATTR:host                 | -                                                               |
-    | OS-EXT-SRV-ATTR:hostname             | backend1                                                        |
-    | OS-EXT-SRV-ATTR:hypervisor_hostname  | -                                                               |
-    | OS-EXT-SRV-ATTR:instance_name        |                                                                 |
-    | OS-EXT-SRV-ATTR:kernel_id            |                                                                 |
-    | OS-EXT-SRV-ATTR:launch_index         | 0                                                               |
-    | OS-EXT-SRV-ATTR:ramdisk_id           |                                                                 |
-    | OS-EXT-SRV-ATTR:reservation_id       | r-0xj1w004                                                      |
-    | OS-EXT-SRV-ATTR:root_device_name     | -                                                               |
-    | OS-EXT-SRV-ATTR:user_data            | -                                                               |
-    | OS-EXT-STS:power_state               | 0                                                               |
-    | OS-EXT-STS:task_state                | scheduling                                                      |
-    | OS-EXT-STS:vm_state                  | building                                                        |
-    | OS-SRV-USG:launched_at               | -                                                               |
-    | OS-SRV-USG:terminated_at             | -                                                               |
-    | accessIPv4                           |                                                                 |
-    | accessIPv6                           |                                                                 |
-    | adminPass                            | 3EzRqv8dBWY7                                                    |
-    | config_drive                         |                                                                 |
-    | created                              | 2017-09-18T12:28:10Z                                            |
-    | description                          | -                                                               |
-    | flavor:disk                          | 1                                                               |
-    | flavor:ephemeral                     | 0                                                               |
-    | flavor:extra_specs                   | {}                                                              |
-    | flavor:original_name                 | m1.tiny                                                         |
-    | flavor:ram                           | 512                                                             |
-    | flavor:swap                          | 0                                                               |
-    | flavor:vcpus                         | 1                                                               |
-    | hostId                               |                                                                 |
-    | host_status                          |                                                                 |
-    | id                                   | 9e13d9d1-393d-401d-a3a8-c76fb8171bcd                            |
-    | image                                | cirros-0.3.5-x86_64-disk (05ba1898-32ad-4418-a51c-c0ded215e221) |
-    | key_name                             | -                                                               |
-    | locked                               | False                                                           |
-    | metadata                             | {}                                                              |
-    | name                                 | backend1                                                        |
-    | os-extended-volumes:volumes_attached | []                                                              |
-    | progress                             | 0                                                               |
-    | security_groups                      | default                                                         |
-    | status                               | BUILD                                                           |
-    | tags                                 | []                                                              |
-    | tenant_id                            | a9541f8689054dc681e0234fa4315950                                |
-    | updated                              | 2017-09-18T12:28:24Z                                            |
-    | user_id                              | eab4a9d4da144e43bb1cacc8fad6f057                                |
-    +--------------------------------------+-----------------------------------------------------------------+
+    +-------------------------------------+-----------------------------------------------------------------+
+    | Field                               | Value                                                           |
+    +-------------------------------------+-----------------------------------------------------------------+
+    | OS-DCF:diskConfig                   | MANUAL                                                          |
+    | OS-EXT-AZ:availability_zone         | az1                                                             |
+    | OS-EXT-SRV-ATTR:host                | None                                                            |
+    | OS-EXT-SRV-ATTR:hypervisor_hostname | None                                                            |
+    | OS-EXT-SRV-ATTR:instance_name       |                                                                 |
+    | OS-EXT-STS:power_state              | NOSTATE                                                         |
+    | OS-EXT-STS:task_state               | scheduling                                                      |
+    | OS-EXT-STS:vm_state                 | building                                                        |
+    | OS-SRV-USG:launched_at              | None                                                            |
+    | OS-SRV-USG:terminated_at            | None                                                            |
+    | accessIPv4                          |                                                                 |
+    | accessIPv6                          |                                                                 |
+    | addresses                           |                                                                 |
+    | adminPass                           | bujUj9MBhmcE                                                    |
+    | config_drive                        |                                                                 |
+    | created                             | 2018-12-27T05:09:10Z                                            |
+    | flavor                              | m1.tiny (1)                                                     |
+    | hostId                              |                                                                 |
+    | id                                  | d396bfdc-42ab-44b4-8253-3454b2e92b53                            |
+    | image                               | cirros-0.3.6-x86_64-disk (24eeada9-f62d-4aed-bc16-ab8b02811a10) |
+    | key_name                            | None                                                            |
+    | name                                | backend1                                                        |
+    | progress                            | 0                                                               |
+    | project_id                          | 6721031d1fde4c6986f438d60fe232d2                                |
+    | properties                          |                                                                 |
+    | security_groups                     | name='default'                                                  |
+    | status                              | BUILD                                                           |
+    | updated                             | 2018-12-27T05:09:11Z                                            |
+    | user_id                             | fea8ea36a71d43d69fa01ae42357ed8e                                |
+    | volumes_attached                    |                                                                 |
+    +-------------------------------------+-----------------------------------------------------------------+
 
 Console in the instances with user 'cirros' and password of 'cubswin:)'.
 Then run the following commands to simulate a web server.
@@ -623,7 +607,7 @@ Create a load balancer for subnet1 in RegionOne.
 
 .. code-block:: console
 
-    $ openstack --os-region-name=RegionOne loadbalancer create --name lb1 --vip-subnet-id $subnet1_id
+    $ openstack --os-region-name RegionOne loadbalancer create --name lb1 --vip-subnet-id $subnet1_id
 
     +---------------------+--------------------------------------+
     | Field               | Value                                |
@@ -654,7 +638,7 @@ load balancer to become 'ACTIVE'.
 
 .. code-block:: console
 
-    $ openstack --os-region-name=RegionOne loadbalancer list
+    $ openstack --os-region-name RegionOne loadbalancer list
 
     +--------------------------------------+------+----------------------------------+-------------+---------------------+----------+
     | id                                   | name | project_id                       | vip_address | provisioning_status | provider |
@@ -662,7 +646,7 @@ load balancer to become 'ACTIVE'.
     | 2bdd4554-4555-4590-ba8f-1ed62027fcb2 | lb1  | 11a20772473b4afd9c9eee67013567a8 | 10.0.1.10   | ACTIVE              | amphora  |
     +--------------------------------------+------+----------------------------------+-------------+---------------------+----------+
 
-    $ openstack --os-region-name=RegionOne loadbalancer listener create --protocol HTTP --protocol-port 80 --name listener1 lb1
+    $ openstack --os-region-name RegionOne loadbalancer listener create --protocol HTTP --protocol-port 80 --name listener1 lb1
 
     +---------------------------+--------------------------------------+
     | Field                     | Value                                |
@@ -695,7 +679,7 @@ Create a pool for the listener after the status of the load balancer is 'ACTIVE'
 
 .. code-block:: console
 
-    $ openstack --os-region-name=RegionOne loadbalancer pool create --lb-algorithm ROUND_ROBIN --listener listener1 --protocol HTTP --name pool1
+    $ openstack --os-region-name RegionOne loadbalancer pool create --lb-algorithm ROUND_ROBIN --listener listener1 --protocol HTTP --name pool1
 
     +---------------------+--------------------------------------+
     | Field               | Value                                |
@@ -723,7 +707,7 @@ balancer is 'ACTIVE'.
 
 .. code-block:: console
 
-    $  openstack --os-region-name=RegionOne loadbalancer member create --subnet $subnet1_id --address $backend1_ip  --protocol-port 80 pool1
+    $  openstack --os-region-name RegionOne loadbalancer member create --subnet $subnet1_id --address $backend1_ip  --protocol-port 80 pool1
 
     +---------------------+--------------------------------------+
     | Field               | Value                                |
@@ -745,7 +729,7 @@ balancer is 'ACTIVE'.
     | backup              | False                                |
     +---------------------+--------------------------------------+
 
-    $ openstack --os-region-name=RegionOne loadbalancer member create --subnet $subnet1_id --address $backend2_ip  --protocol-port 80 pool1
+    $ openstack --os-region-name RegionOne loadbalancer member create --subnet $subnet1_id --address $backend2_ip  --protocol-port 80 pool1
 
     +---------------------+--------------------------------------+
     | Field               | Value                                |
@@ -907,7 +891,7 @@ Add backend3 to the pool as a member, after the status of the load balancer is '
 
 .. code-block:: console
 
-    $ openstack --os-region-name=RegionOne loadbalancer member create --subnet $subnet1_id --address $backend3_ip --protocol-port 80 pool1
+    $ openstack --os-region-name RegionOne loadbalancer member create --subnet $subnet1_id --address $backend3_ip --protocol-port 80 pool1
 
 Verify load balancing. Request the VIP three times.
 
@@ -1141,7 +1125,7 @@ Add the instance to the pool as a member, after the status of the load balancer 
 
 .. code-block:: console
 
-    $ openstack --os-region-name=RegionOne loadbalancer member create --subnet $subnet2_id --address $backend4_ip --protocol-port 80 pool1
+    $ openstack --os-region-name RegionOne loadbalancer member create --subnet $subnet2_id --address $backend4_ip --protocol-port 80 pool1
 
 Verify load balancing. Request the VIP four times.
 
