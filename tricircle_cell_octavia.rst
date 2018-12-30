@@ -131,6 +131,8 @@ Create security group and rules for load balancer management network.
 
 .. code-block:: console
 
+    $ mysql -u root -e 'insert into neutron.securitygroups select * from neutron0.securitygroups where name = "grp-tst"'
+
     $ openstack --os-region-name=CentralRegion security group create lb-mgmt-sec-grp
     $ openstack --os-region-name=CentralRegion security group rule create --protocol icmp lb-mgmt-sec-grp
     $ openstack --os-region-name=CentralRegion security group rule create --protocol tcp --dst-port 22 lb-mgmt-sec-grp
@@ -140,8 +142,6 @@ Create security group and rules for load balancer management network.
     $ openstack --os-region-name=CentralRegion security group rule create --protocol tcp --dst-port 22 --ethertype IPv6 --remote-ip ::/0 lb-mgmt-sec-grp
     $ openstack --os-region-name=CentralRegion security group rule create --protocol tcp --dst-port 80 --ethertype IPv6 --remote-ip ::/0 lb-mgmt-sec-grp
     $ openstack --os-region-name=CentralRegion security group rule create --protocol tcp --dst-port 9443 --ethertype IPv6 --remote-ip ::/0 lb-mgmt-sec-grp
-
-    $ mysql -u root -e 'insert into neutron.securitygroups select * from neutron0.securitygroups where name = "lb-mgmt-sec-grp"'
 
 .. note:: The output in the console is omitted.
 
