@@ -619,16 +619,14 @@ How to play
   - Console in the instances with user 'cirros' and password of 'cubswin:)'.
     Then run the following commands to simulate a web server.
 
-    .. code-block:: console
-        $ sudo ip netns exec dhcp-$net1_id ssh cirros@10.0.10.152
-        $ sudo ip netns exec dhcp-$net1_id ssh cirros@10.0.10.176
-
     .. note::
 
         If using cirros 0.4.0 and above, Console in the instances with user
         'cirros' and password of 'gocubsgo'.
 
     .. code-block:: console
+        $ sudo ip netns exec dhcp-$net1_id ssh cirros@10.0.10.152
+        $ sudo ip netns exec dhcp-$net1_id ssh cirros@10.0.10.176
 
         $ MYIP=$(ifconfig eth0| grep 'inet addr'| awk -F: '{print $2}'| awk '{print $1}')
         $ while true; do echo -e "HTTP/1.0 200 OK\r\n\r\nWelcome to $MYIP" | sudo nc -l -p 80 ; done&
