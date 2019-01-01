@@ -625,6 +625,7 @@ How to play
         'cirros' and password of 'gocubsgo'.
 
     .. code-block:: console
+        
         $ sudo ip netns exec dhcp-$net1_id ssh cirros@10.0.10.152
         $ sudo ip netns exec dhcp-$net1_id ssh cirros@10.0.10.176
 
@@ -899,6 +900,7 @@ How to play
     Then run the following commands to simulate a web server.
 
     .. code-block:: console
+
         $ sudo ip netns exec dhcp-$net1_id ssh cirros@$backend3_ip
 
         $ MYIP=$(ifconfig eth0| grep 'inet addr'| awk -F: '{print $2}'| awk '{print $1}')
@@ -1119,6 +1121,7 @@ How to play
   - Console in the instances with user 'cirros' and password of 'cubswin:)'. Then run the following commands to simulate a web server.
 
     .. code-block:: console
+
         $ sudo ip netns exec dhcp-$net1_id ssh cirros@$backend4_ip
 
         $ MYIP=$(ifconfig eth0| grep 'inet addr'| awk -F: '{print $2}'| awk '{print $1}')
