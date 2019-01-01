@@ -95,11 +95,6 @@ Setup & Installation
         ENABLED_SERVICES+=,q-lbaasv2
         ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
 
-.. note:: Multi-cell support of Nova cell v2 is under development. DevStack
-   doesn't support multi-cell deployment currently, so the steps discussed in
-   this document may seem not that elegant. We will keep updating this document
-   according to the progress of multi-cell development by Nova team.
-
 Prerequisite
 ^^^^^^^^^^^^
 
