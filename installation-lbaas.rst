@@ -432,7 +432,7 @@ How to play
 
 - 1 LBaaS members in one network and in same region
 
-Here we take VxLAN as an example.
+    Here we take VxLAN as an example.
 
   - Create net1 in CentralRegion
 
@@ -633,8 +633,8 @@ Here we take VxLAN as an example.
         $ MYIP=$(ifconfig eth0| grep 'inet addr'| awk -F: '{print $2}'| awk '{print $1}')
         $ while true; do echo -e "HTTP/1.0 200 OK\r\n\r\nWelcome to $MYIP" | sudo nc -l -p 80 ; done&
 
-The Octavia installed in node1 and node2 are two standalone services,
-here we take RegionOne as an example.
+    The Octavia installed in node1 and node2 are two standalone services,
+    here we take RegionOne as an example.
 
   - Create a load balancer for subnet1 in RegionOne.
 
