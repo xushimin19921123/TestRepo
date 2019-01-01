@@ -205,227 +205,227 @@ Configuration
 
         $ openstack --os-region-name CentralRegion subnet create --subnet-range 192.168.10.0/24 --network lb-mgmt-net1 lb-mgmt-subnet1
 
-    +-------------------+--------------------------------------+
-    | Field             | Value                                |
-    +-------------------+--------------------------------------+
-    | allocation_pools  | 192.168.10.2-192.168.10.254          |
-    | cidr              | 192.168.10.0/24                      |
-    | created_at        | 2019-01-01T06:31:10Z                 |
-    | description       |                                      |
-    | dns_nameservers   |                                      |
-    | enable_dhcp       | True                                 |
-    | gateway_ip        | 192.168.10.1                         |
-    | host_routes       |                                      |
-    | id                | 84562c3a-55be-4c0f-9e50-3a5206670077 |
-    | ip_version        | 4                                    |
-    | ipv6_address_mode | None                                 |
-    | ipv6_ra_mode      | None                                 |
-    | location          | None                                 |
-    | name              | lb-mgmt-subnet1                      |
-    | network_id        | 9c3bd3f7-b581-4686-b35a-434b2fe5c1d5 |
-    | project_id        | d3b83ed3f2504a8699c9528a2297fea7     |
-    | revision_number   | 0                                    |
-    | segment_id        | None                                 |
-    | service_types     | None                                 |
-    | subnetpool_id     | None                                 |
-    | tags              |                                      |
-    | updated_at        | 2019-01-01T06:31:10Z                 |
-    +-------------------+--------------------------------------+
+        +-------------------+--------------------------------------+
+        | Field             | Value                                |
+        +-------------------+--------------------------------------+
+        | allocation_pools  | 192.168.10.2-192.168.10.254          |
+        | cidr              | 192.168.10.0/24                      |
+        | created_at        | 2019-01-01T06:31:10Z                 |
+        | description       |                                      |
+        | dns_nameservers   |                                      |
+        | enable_dhcp       | True                                 |
+        | gateway_ip        | 192.168.10.1                         |
+        | host_routes       |                                      |
+        | id                | 84562c3a-55be-4c0f-9e50-3a5206670077 |
+        | ip_version        | 4                                    |
+        | ipv6_address_mode | None                                 |
+        | ipv6_ra_mode      | None                                 |
+        | location          | None                                 |
+        | name              | lb-mgmt-subnet1                      |
+        | network_id        | 9c3bd3f7-b581-4686-b35a-434b2fe5c1d5 |
+        | project_id        | d3b83ed3f2504a8699c9528a2297fea7     |
+        | revision_number   | 0                                    |
+        | segment_id        | None                                 |
+        | service_types     | None                                 |
+        | subnetpool_id     | None                                 |
+        | tags              |                                      |
+        | updated_at        | 2019-01-01T06:31:10Z                 |
+        +-------------------+--------------------------------------+
 
-Create the health management interface for Octavia in RegionOne.
+  - Create the health management interface for Octavia in RegionOne.
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ id_and_mac=$(openstack --os-region-name CentralRegion port create --security-group lb-health-mgr-sec-grp --device-owner Octavia:health-mgr --network lb-mgmt-net1 octavia-health-manager-region-one-listen-port | awk '/ id | mac_address / {print $4}')
-    $ id_and_mac=($id_and_mac)
-    $ MGMT_PORT_ID=${id_and_mac[0]}
-    $ MGMT_PORT_MAC=${id_and_mac[1]}
-    $ MGMT_PORT_IP=$(openstack --os-region-name RegionOne port show -f value -c fixed_ips $MGMT_PORT_ID | awk '{FS=",| "; gsub(",",""); gsub("'\''",""); for(i = 1; i <= NF; ++i) {if ($i ~ /^ip_address/) {n=index($i, "="); if (substr($i, n+1) ~ "\\.") print substr($i, n+1)}}}')
-    $ openstack --os-region-name RegionOne port set --host $(hostname)  $MGMT_PORT_ID
-    $ sudo ovs-vsctl -- --may-exist add-port ${OVS_BRIDGE:-br-int} o-hm0 -- set Interface o-hm0 type=internal -- set Interface o-hm0 external-ids:iface-status=active -- set Interface o-hm0 external-ids:attached-mac=$MGMT_PORT_MAC -- set Interface o-hm0 external-ids:iface-id=$MGMT_PORT_ID -- set Interface o-hm0 external-ids:skip_cleanup=true
-    $ OCTAVIA_DHCLIENT_CONF=/etc/octavia/dhcp/dhclient.conf
-    $ sudo ip link set dev o-hm0 address $MGMT_PORT_MAC
-    $ sudo dhclient -v o-hm0 -cf $OCTAVIA_DHCLIENT_CONF
+        $ id_and_mac=$(openstack --os-region-name CentralRegion port create --security-group lb-health-mgr-sec-grp --device-owner Octavia:health-mgr --network lb-mgmt-net1 octavia-health-manager-region-one-listen-port | awk '/ id | mac_address / {print $4}')
+        $ id_and_mac=($id_and_mac)
+        $ MGMT_PORT_ID=${id_and_mac[0]}
+        $ MGMT_PORT_MAC=${id_and_mac[1]}
+        $ MGMT_PORT_IP=$(openstack --os-region-name RegionOne port show -f value -c fixed_ips $MGMT_PORT_ID | awk '{FS=",| "; gsub(",",""); gsub("'\''",""); for(i = 1; i <= NF; ++i) {if ($i ~ /^ip_address/) {n=index($i, "="); if (substr($i, n+1) ~ "\\.") print substr($i, n+1)}}}')
+        $ openstack --os-region-name RegionOne port set --host $(hostname)  $MGMT_PORT_ID
+        $ sudo ovs-vsctl -- --may-exist add-port ${OVS_BRIDGE:-br-int} o-hm0 -- set Interface o-hm0 type=internal -- set Interface o-hm0 external-ids:iface-status=active -- set Interface o-hm0 external-ids:attached-mac=$MGMT_PORT_MAC -- set Interface o-hm0 external-ids:iface-id=$MGMT_PORT_ID -- set Interface o-hm0 external-ids:skip_cleanup=true
+        $ OCTAVIA_DHCLIENT_CONF=/etc/octavia/dhcp/dhclient.conf
+        $ sudo ip link set dev o-hm0 address $MGMT_PORT_MAC
+        $ sudo dhclient -v o-hm0 -cf $OCTAVIA_DHCLIENT_CONF
 
-    Listening on LPF/o-hm0/fa:16:3e:54:16:8e
-    Sending on   LPF/o-hm0/fa:16:3e:54:16:8e
-    Sending on   Socket/fallback
-    DHCPDISCOVER on o-hm0 to 255.255.255.255 port 67 interval 3 (xid=0xd3e7353)
-    DHCPREQUEST of 192.168.10.194 on o-hm0 to 255.255.255.255 port 67 (xid=0x53733e0d)
-    DHCPOFFER of 192.168.10.194 from 192.168.10.2
-    DHCPACK of 192.168.10.194 from 192.168.10.2
-    bound to 192.168.10.194 -- renewal in 42514 seconds.
+        Listening on LPF/o-hm0/fa:16:3e:54:16:8e
+        Sending on   LPF/o-hm0/fa:16:3e:54:16:8e
+        Sending on   Socket/fallback
+        DHCPDISCOVER on o-hm0 to 255.255.255.255 port 67 interval 3 (xid=0xd3e7353)
+        DHCPREQUEST of 192.168.10.194 on o-hm0 to 255.255.255.255 port 67 (xid=0x53733e0d)
+        DHCPOFFER of 192.168.10.194 from 192.168.10.2
+        DHCPACK of 192.168.10.194 from 192.168.10.2
+        bound to 192.168.10.194 -- renewal in 42514 seconds.
 
-    $ sudo iptables -I INPUT -i o-hm0 -p udp --dport 5555 -j ACCEPT
+        $ sudo iptables -I INPUT -i o-hm0 -p udp --dport 5555 -j ACCEPT
 
-.. note:: As shown in the console, DHCP server allocates 192.168.10.194 as the
-   IP of the health management interface, i.e., 0-hm. Hence, we need to
-   modify the /etc/octavia/octavia.conf file to make Octavia aware of it and
-   use the resources we just created, including health management interface,
-   amphora security group and so on.
+    .. note:: As shown in the console, DHCP server allocates 192.168.10.194 as the
+        IP of the health management interface, i.e., 0-hm. Hence, we need to
+        modify the /etc/octavia/octavia.conf file to make Octavia aware of it and
+        use the resources we just created, including health management interface,
+        amphora security group and so on.
 
-.. csv-table::
-   :header: "Option", "Description", "Example"
+    .. csv-table::
+        :header: "Option", "Description", "Example"
 
-   [health_manager] bind_ip, "the ip of health manager in RegionOne", 192.168.10.194
-   [health_manager] bind_port, "the port health manager listens on", 5555
-   [health_manager] controller_ip_port_list, "the ip and port of health manager binds in RegionOne", 192.168.10.194:5555
-   [controller_worker] amp_boot_network_list, "the id of amphora management network in RegionOne", "query neutron to obtain it, i.e., the id of lb-mgmt-net1 in this doc"
-   [controller_worker] amp_secgroup_list, "the id of security group created for amphora in central region", "query neutron to obtain it, i.e., the id of lb-mgmt-sec-grp"
-   [neutron] service_name, "The name of the neutron service in the keystone catalog", neutron
-   [neutron] endpoint, "Central neutron endpoint if override is necessary", http://192.168.57.9:20001/
-   [neutron] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", CentralRegion
-   [neutron] endpoint_type, "Endpoint type", public
-   [nova] service_name, "The name of the nova service in the keystone catalog", nova
-   [nova] endpoint, "Custom nova endpoint if override is necessary", http://192.168.57.9/compute/v2.1
-   [nova] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionOne
-   [nova] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
-   [glance] service_name, "The name of the glance service in the keystone catalog", glance
-   [glance] endpoint, "Custom glance endpoint if override is necessary", http://192.168.57.9/image
-   [glance] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionOne
-   [glance] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
+        [health_manager] bind_ip, "the ip of health manager in RegionOne", 192.168.10.194
+        [health_manager] bind_port, "the port health manager listens on", 5555
+        [health_manager] controller_ip_port_list, "the ip and port of health manager binds in RegionOne", 192.168.10.194:5555
+        [controller_worker] amp_boot_network_list, "the id of amphora management network in RegionOne", "query neutron to obtain it, i.e., the id of lb-mgmt-net1 in this doc"
+        [controller_worker] amp_secgroup_list, "the id of security group created for amphora in central region", "query neutron to obtain it, i.e., the id of lb-mgmt-sec-grp"
+        [neutron] service_name, "The name of the neutron service in the keystone catalog", neutron
+        [neutron] endpoint, "Central neutron endpoint if override is necessary", http://192.168.57.9:20001/
+        [neutron] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", CentralRegion
+        [neutron] endpoint_type, "Endpoint type", public
+        [nova] service_name, "The name of the nova service in the keystone catalog", nova
+        [nova] endpoint, "Custom nova endpoint if override is necessary", http://192.168.57.9/compute/v2.1
+        [nova] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionOne
+        [nova] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
+        [glance] service_name, "The name of the glance service in the keystone catalog", glance
+        [glance] endpoint, "Custom glance endpoint if override is necessary", http://192.168.57.9/image
+        [glance] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionOne
+        [glance] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
 
-Restart all the services of Octavia in node1.
+    Restart all the services of Octavia in node1.
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ sudo systemctl restart devstack@o-*
+        $ sudo systemctl restart devstack@o-*
 
 - 2 If users only deploy Octavia in RegionOne, this step can be skipped.
   Configure LBaaS in node2.
 
-Create an amphora management network in CentralRegion
+  - Create an amphora management network in CentralRegion
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ openstack --os-region-name CentralRegion network create lb-mgmt-net2
+        $ openstack --os-region-name CentralRegion network create lb-mgmt-net2
 
-    +---------------------------+--------------------------------------+
-    | Field                     | Value                                |
-    +---------------------------+--------------------------------------+
-    | admin_state_up            | UP                                   |
-    | availability_zone_hints   |                                      |
-    | availability_zones        | None                                 |
-    | created_at                | None                                 |
-    | description               | None                                 |
-    | dns_domain                | None                                 |
-    | id                        | 6494d887-25a8-4b07-8422-93f7acc21ecd |
-    | ipv4_address_scope        | None                                 |
-    | ipv6_address_scope        | None                                 |
-    | is_default                | None                                 |
-    | is_vlan_transparent       | None                                 |
-    | location                  | None                                 |
-    | mtu                       | None                                 |
-    | name                      | lb-mgmt-net2                         |
-    | port_security_enabled     | False                                |
-    | project_id                | d3b83ed3f2504a8699c9528a2297fea7     |
-    | provider:network_type     | vxlan                                |
-    | provider:physical_network | None                                 |
-    | provider:segmentation_id  | 1085                                 |
-    | qos_policy_id             | None                                 |
-    | revision_number           | None                                 |
-    | router:external           | Internal                             |
-    | segments                  | None                                 |
-    | shared                    | False                                |
-    | status                    | ACTIVE                               |
-    | subnets                   |                                      |
-    | tags                      |                                      |
-    | updated_at                | None                                 |
-    +---------------------------+--------------------------------------+
+        +---------------------------+--------------------------------------+
+        | Field                     | Value                                |
+        +---------------------------+--------------------------------------+
+        | admin_state_up            | UP                                   |
+        | availability_zone_hints   |                                      |
+        | availability_zones        | None                                 |
+        | created_at                | None                                 |
+        | description               | None                                 |
+        | dns_domain                | None                                 |
+        | id                        | 6494d887-25a8-4b07-8422-93f7acc21ecd |
+        | ipv4_address_scope        | None                                 |
+        | ipv6_address_scope        | None                                 |
+        | is_default                | None                                 |
+        | is_vlan_transparent       | None                                 |
+        | location                  | None                                 |
+        | mtu                       | None                                 |
+        | name                      | lb-mgmt-net2                         |
+        | port_security_enabled     | False                                |
+        | project_id                | d3b83ed3f2504a8699c9528a2297fea7     |
+        | provider:network_type     | vxlan                                |
+        | provider:physical_network | None                                 |
+        | provider:segmentation_id  | 1085                                 |
+        | qos_policy_id             | None                                 |
+        | revision_number           | None                                 |
+        | router:external           | Internal                             |
+        | segments                  | None                                 |
+        | shared                    | False                                |
+        | status                    | ACTIVE                               |
+        | subnets                   |                                      |
+        | tags                      |                                      |
+        | updated_at                | None                                 |
+        +---------------------------+--------------------------------------+
 
-Create a subnet in lb-mgmt-net2
+  - Create a subnet in lb-mgmt-net2
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ openstack --os-region-name CentralRegion subnet create --subnet-range 192.168.20.0/24 --network lb-mgmt-net2 lb-mgmt-subnet2
+        $ openstack --os-region-name CentralRegion subnet create --subnet-range 192.168.20.0/24 --network lb-mgmt-net2 lb-mgmt-subnet2
 
-    +-------------------+--------------------------------------+
-    | Field             | Value                                |
-    +-------------------+--------------------------------------+
-    | allocation_pools  | 192.168.20.2-192.168.20.254          |
-    | cidr              | 192.168.20.0/24                      |
-    | created_at        | 2019-01-01T06:53:28Z                 |
-    | description       |                                      |
-    | dns_nameservers   |                                      |
-    | enable_dhcp       | True                                 |
-    | gateway_ip        | 192.168.20.1                         |
-    | host_routes       |                                      |
-    | id                | de2e9e76-e3c8-490f-b030-4374b22c2d95 |
-    | ip_version        | 4                                    |
-    | ipv6_address_mode | None                                 |
-    | ipv6_ra_mode      | None                                 |
-    | location          | None                                 |
-    | name              | lb-mgmt-subnet2                      |
-    | network_id        | 6494d887-25a8-4b07-8422-93f7acc21ecd |
-    | project_id        | d3b83ed3f2504a8699c9528a2297fea7     |
-    | revision_number   | 0                                    |
-    | segment_id        | None                                 |
-    | service_types     | None                                 |
-    | subnetpool_id     | None                                 |
-    | tags              |                                      |
-    | updated_at        | 2019-01-01T06:53:28Z                 |
-    +-------------------+--------------------------------------+
+        +-------------------+--------------------------------------+
+        | Field             | Value                                |
+        +-------------------+--------------------------------------+
+        | allocation_pools  | 192.168.20.2-192.168.20.254          |
+        | cidr              | 192.168.20.0/24                      |
+        | created_at        | 2019-01-01T06:53:28Z                 |
+        | description       |                                      |
+        | dns_nameservers   |                                      |
+        | enable_dhcp       | True                                 |
+        | gateway_ip        | 192.168.20.1                         |
+        | host_routes       |                                      |
+        | id                | de2e9e76-e3c8-490f-b030-4374b22c2d95 |
+        | ip_version        | 4                                    |
+        | ipv6_address_mode | None                                 |
+        | ipv6_ra_mode      | None                                 |
+        | location          | None                                 |
+        | name              | lb-mgmt-subnet2                      |
+        | network_id        | 6494d887-25a8-4b07-8422-93f7acc21ecd |
+        | project_id        | d3b83ed3f2504a8699c9528a2297fea7     |
+        | revision_number   | 0                                    |
+        | segment_id        | None                                 |
+        | service_types     | None                                 |
+        | subnetpool_id     | None                                 |
+        | tags              |                                      |
+        | updated_at        | 2019-01-01T06:53:28Z                 |
+        +-------------------+--------------------------------------+
 
-Create the health management interface for Octavia in RegionTwo.
+  - Create the health management interface for Octavia in RegionTwo.
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ id_and_mac=$(openstack --os-region-name CentralRegion port create --security-group lb-health-mgr-sec-grp --device-owner Octavia:health-mgr --network lb-mgmt-net2 octavia-health-manager-region-two-listen-port | awk '/ id | mac_address / {print $4}')
-    $ id_and_mac=($id_and_mac)
-    $ MGMT_PORT_ID=${id_and_mac[0]}
-    $ MGMT_PORT_MAC=${id_and_mac[1]}
-    $ MGMT_PORT_IP=$(openstack --os-region-name RegionTwo port show -f value -c fixed_ips $MGMT_PORT_ID | awk '{FS=",| "; gsub(",",""); gsub("'\''",""); for(i = 1; i <= NF; ++i) {if ($i ~ /^ip_address/) {n=index($i, "="); if (substr($i, n+1) ~ "\\.") print substr($i, n+1)}}}')
-    $ openstack --os-region-name RegionTwo port set --host $(hostname) $MGMT_PORT_ID
-    $ sudo ovs-vsctl -- --may-exist add-port ${OVS_BRIDGE:-br-int} o-hm0 -- set Interface o-hm0 type=internal -- set Interface o-hm0 external-ids:iface-status=active -- set Interface o-hm0 external-ids:attached-mac=$MGMT_PORT_MAC -- set Interface o-hm0 external-ids:iface-id=$MGMT_PORT_ID -- set Interface o-hm0 external-ids:skip_cleanup=true
-    $ OCTAVIA_DHCLIENT_CONF=/etc/octavia/dhcp/dhclient.conf
-    $ sudo ip link set dev o-hm0 address $MGMT_PORT_MAC
-    $ sudo dhclient -v o-hm0 -cf $OCTAVIA_DHCLIENT_CONF
+        $ id_and_mac=$(openstack --os-region-name CentralRegion port create --security-group lb-health-mgr-sec-grp --device-owner Octavia:health-mgr --network lb-mgmt-net2 octavia-health-manager-region-two-listen-port | awk '/ id | mac_address / {print $4}')
+        $ id_and_mac=($id_and_mac)
+        $ MGMT_PORT_ID=${id_and_mac[0]}
+        $ MGMT_PORT_MAC=${id_and_mac[1]}
+        $ MGMT_PORT_IP=$(openstack --os-region-name RegionTwo port show -f value -c fixed_ips $MGMT_PORT_ID | awk '{FS=",| "; gsub(",",""); gsub("'\''",""); for(i = 1; i <= NF; ++i) {if ($i ~ /^ip_address/) {n=index($i, "="); if (substr($i, n+1) ~ "\\.") print substr($i, n+1)}}}')
+        $ openstack --os-region-name RegionTwo port set --host $(hostname) $MGMT_PORT_ID
+        $ sudo ovs-vsctl -- --may-exist add-port ${OVS_BRIDGE:-br-int} o-hm0 -- set Interface o-hm0 type=internal -- set Interface o-hm0 external-ids:iface-status=active -- set Interface o-hm0 external-ids:attached-mac=$MGMT_PORT_MAC -- set Interface o-hm0 external-ids:iface-id=$MGMT_PORT_ID -- set Interface o-hm0 external-ids:skip_cleanup=true
+        $ OCTAVIA_DHCLIENT_CONF=/etc/octavia/dhcp/dhclient.conf
+        $ sudo ip link set dev o-hm0 address $MGMT_PORT_MAC
+        $ sudo dhclient -v o-hm0 -cf $OCTAVIA_DHCLIENT_CONF
 
-    Listening on LPF/o-hm0/fa:16:3e:c0:bf:30
-    Sending on   LPF/o-hm0/fa:16:3e:c0:bf:30
-    Sending on   Socket/fallback
-    DHCPDISCOVER on o-hm0 to 255.255.255.255 port 67 interval 3 (xid=0xad6d3a1a)
-    DHCPREQUEST of 192.168.20.3 on o-hm0 to 255.255.255.255 port 67 (xid=0x1a3a6dad)
-    DHCPOFFER of 192.168.20.3 from 192.168.20.2
-    DHCPACK of 192.168.20.3 from 192.168.20.2
-    bound to 192.168.20.3 -- renewal in 37208 seconds.
+        Listening on LPF/o-hm0/fa:16:3e:c0:bf:30
+        Sending on   LPF/o-hm0/fa:16:3e:c0:bf:30
+        Sending on   Socket/fallback
+        DHCPDISCOVER on o-hm0 to 255.255.255.255 port 67 interval 3 (xid=0xad6d3a1a)
+        DHCPREQUEST of 192.168.20.3 on o-hm0 to 255.255.255.255 port 67 (xid=0x1a3a6dad)
+        DHCPOFFER of 192.168.20.3 from 192.168.20.2
+        DHCPACK of 192.168.20.3 from 192.168.20.2
+        bound to 192.168.20.3 -- renewal in 37208 seconds.
 
-    $ sudo iptables -I INPUT -i o-hm0 -p udp --dport 5555 -j ACCEPT
+        $ sudo iptables -I INPUT -i o-hm0 -p udp --dport 5555 -j ACCEPT
 
-.. note:: The ip allocated by DHCP server, i.e., 192.168.20.3 in this case,
-   is the bound and listened by health manager of Octavia. Please note that
-   it will be used in the configuration file of Octavia.
+    .. note:: The ip allocated by DHCP server, i.e., 192.168.20.3 in this case,
+        is the bound and listened by health manager of Octavia. Please note that
+        it will be used in the configuration file of Octavia.
 
-Modify the /etc/octavia/octavia.conf in node2.
+  - Modify the /etc/octavia/octavia.conf in node2.
 
-.. csv-table::
-   :header: "Option", "Description", "Example"
+    .. csv-table::
+        :header: "Option", "Description", "Example"
 
-   [health_manager] bind_ip, "the ip of health manager in RegionTwo", 192.168.20.3
-   [health_manager] bind_port, "the port health manager listens on in RegionTwo", 5555
-   [health_manager] controller_ip_port_list, "the ip and port of health manager binds in RegionTwo", 192.168.20.3:5555
-   [controller_worker] amp_boot_network_list, "the id of amphora management network in RegionTwo", "query neutron to obtain it, i.e., the id of lb-mgmt-net2 in this doc"
-   [controller_worker] amp_secgroup_list, "the id of security group created for amphora in central region", "query neutron to obtain it, i.e., the id of lb-mgmt-sec-grp"
-   [neutron] service_name, "The name of the neutron service in the keystone catalog", neutron
-   [neutron] endpoint, "Central neutron endpoint if override is necessary", http://192.168.57.9:20001/
-   [neutron] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", CentralRegion
-   [neutron] endpoint_type, "Endpoint type", public
-   [nova] service_name, "The name of the nova service in the keystone catalog", nova
-   [nova] endpoint, "Custom nova endpoint if override is necessary", http://192.168.57.10/compute/v2.1
-   [nova] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionTwo
-   [nova] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
-   [glance] service_name, "The name of the glance service in the keystone catalog", glance
-   [glance] endpoint, "Custom glance endpoint if override is necessary", http://192.168.57.10/image
-   [glance] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionTwo
-   [glance] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
+        [health_manager] bind_ip, "the ip of health manager in RegionTwo", 192.168.20.3
+        [health_manager] bind_port, "the port health manager listens on in RegionTwo", 5555
+        [health_manager] controller_ip_port_list, "the ip and port of health manager binds in RegionTwo", 192.168.20.3:5555
+        [controller_worker] amp_boot_network_list, "the id of amphora management network in RegionTwo", "query neutron to obtain it, i.e., the id of lb-mgmt-net2 in this doc"
+        [controller_worker] amp_secgroup_list, "the id of security group created for amphora in central region", "query neutron to obtain it, i.e., the id of lb-mgmt-sec-grp"
+        [neutron] service_name, "The name of the neutron service in the keystone catalog", neutron
+        [neutron] endpoint, "Central neutron endpoint if override is necessary", http://192.168.57.9:20001/
+        [neutron] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", CentralRegion
+        [neutron] endpoint_type, "Endpoint type", public
+        [nova] service_name, "The name of the nova service in the keystone catalog", nova
+        [nova] endpoint, "Custom nova endpoint if override is necessary", http://192.168.57.10/compute/v2.1
+        [nova] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionTwo
+        [nova] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
+        [glance] service_name, "The name of the glance service in the keystone catalog", glance
+        [glance] endpoint, "Custom glance endpoint if override is necessary", http://192.168.57.10/image
+        [glance] region_name, "Region in Identity service catalog to use for communication with the OpenStack services", RegionTwo
+        [glance] endpoint_type, "Endpoint type in Identity service catalog to use for communication with the OpenStack services", public
 
-Restart all the services of Octavia in node2.
+  - Restart all the services of Octavia in node2.
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ sudo systemctl restart devstack@o-*
+        $ sudo systemctl restart devstack@o-*
 
-By now, we finish installing LBaaS.
+  - By now, we finish installing LBaaS.
 
 How to play
 ^^^^^^^^^^^
