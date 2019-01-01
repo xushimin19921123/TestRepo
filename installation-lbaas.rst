@@ -132,7 +132,7 @@ Configuration
 
 - 1 Create security groups.
 
-Create security group and rules for load balancer management network.
+  - Create security group and rules for load balancer management network.
 
     .. code-block:: console
 
@@ -146,64 +146,64 @@ Create security group and rules for load balancer management network.
         $ openstack --os-region-name CentralRegion security group rule create --protocol tcp --dst-port 80 --ethertype IPv6 --remote-ip ::/0 lb-mgmt-sec-grp
         $ openstack --os-region-name CentralRegion security group rule create --protocol tcp --dst-port 9443 --ethertype IPv6 --remote-ip ::/0 lb-mgmt-sec-grp
 
-.. note:: The output in the console is omitted.
+    .. note:: The output in the console is omitted.
 
-Create security group and rules for healthy manager
+  - Create security group and rules for healthy manager
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ openstack --os-region-name CentralRegion security group create lb-health-mgr-sec-grp
-    $ openstack --os-region-name CentralRegion security group rule create --protocol udp --dst-port 5555 lb-health-mgr-sec-grp
-    $ openstack --os-region-name CentralRegion security group rule create --protocol udp --dst-port 5555 --ethertype IPv6 --remote-ip ::/0 lb-health-mgr-sec-grp
+        $ openstack --os-region-name CentralRegion security group create lb-health-mgr-sec-grp
+        $ openstack --os-region-name CentralRegion security group rule create --protocol udp --dst-port 5555 lb-health-mgr-sec-grp
+        $ openstack --os-region-name CentralRegion security group rule create --protocol udp --dst-port 5555 --ethertype IPv6 --remote-ip ::/0 lb-health-mgr-sec-grp
 
-.. note:: The output in the console is omitted.
+    .. note:: The output in the console is omitted.
 
 - 2 Configure LBaaS in node1
 
-Create an amphora management network in CentralRegion
+  - Create an amphora management network in CentralRegion
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ openstack --os-region-name CentralRegion network create lb-mgmt-net1
+        $ openstack --os-region-name CentralRegion network create lb-mgmt-net1
 
-    +---------------------------+--------------------------------------+
-    | Field                     | Value                                |
-    +---------------------------+--------------------------------------+
-    | admin_state_up            | UP                                   |
-    | availability_zone_hints   |                                      |
-    | availability_zones        | None                                 |
-    | created_at                | None                                 |
-    | description               | None                                 |
-    | dns_domain                | None                                 |
-    | id                        | 9c3bd3f7-b581-4686-b35a-434b2fe5c1d5 |
-    | ipv4_address_scope        | None                                 |
-    | ipv6_address_scope        | None                                 |
-    | is_default                | None                                 |
-    | is_vlan_transparent       | None                                 |
-    | location                  | None                                 |
-    | mtu                       | None                                 |
-    | name                      | lb-mgmt-net1                         |
-    | port_security_enabled     | False                                |
-    | project_id                | d3b83ed3f2504a8699c9528a2297fea7     |
-    | provider:network_type     | vxlan                                |
-    | provider:physical_network | None                                 |
-    | provider:segmentation_id  | 1094                                 |
-    | qos_policy_id             | None                                 |
-    | revision_number           | None                                 |
-    | router:external           | Internal                             |
-    | segments                  | None                                 |
-    | shared                    | False                                |
-    | status                    | ACTIVE                               |
-    | subnets                   |                                      |
-    | tags                      |                                      |
-    | updated_at                | None                                 |
-    +---------------------------+--------------------------------------+
+        +---------------------------+--------------------------------------+
+        | Field                     | Value                                |
+        +---------------------------+--------------------------------------+
+        | admin_state_up            | UP                                   |
+        | availability_zone_hints   |                                      |
+        | availability_zones        | None                                 |
+        | created_at                | None                                 |
+        | description               | None                                 |
+        | dns_domain                | None                                 |
+        | id                        | 9c3bd3f7-b581-4686-b35a-434b2fe5c1d5 |
+        | ipv4_address_scope        | None                                 |
+        | ipv6_address_scope        | None                                 |
+        | is_default                | None                                 |
+        | is_vlan_transparent       | None                                 |
+        | location                  | None                                 |
+        | mtu                       | None                                 |
+        | name                      | lb-mgmt-net1                         |
+        | port_security_enabled     | False                                |
+        | project_id                | d3b83ed3f2504a8699c9528a2297fea7     |
+        | provider:network_type     | vxlan                                |
+        | provider:physical_network | None                                 |
+        | provider:segmentation_id  | 1094                                 |
+        | qos_policy_id             | None                                 |
+        | revision_number           | None                                 |
+        | router:external           | Internal                             |
+        | segments                  | None                                 |
+        | shared                    | False                                |
+        | status                    | ACTIVE                               |
+        | subnets                   |                                      |
+        | tags                      |                                      |
+        | updated_at                | None                                 |
+        +---------------------------+--------------------------------------+
 
-Create a subnet in lb-mgmt-net1
+  - Create a subnet in lb-mgmt-net1
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ openstack --os-region-name CentralRegion subnet create --subnet-range 192.168.10.0/24 --network lb-mgmt-net1 lb-mgmt-subnet1
+        $ openstack --os-region-name CentralRegion subnet create --subnet-range 192.168.10.0/24 --network lb-mgmt-net1 lb-mgmt-subnet1
 
     +-------------------+--------------------------------------+
     | Field             | Value                                |
