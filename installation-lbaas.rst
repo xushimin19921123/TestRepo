@@ -625,7 +625,7 @@ How to play
         'cirros' and password of 'gocubsgo'.
 
     .. code-block:: console
-        
+
         $ sudo ip netns exec dhcp-$net1_id ssh cirros@10.0.10.152
         $ sudo ip netns exec dhcp-$net1_id ssh cirros@10.0.10.176
 
