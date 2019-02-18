@@ -16,7 +16,7 @@ Setup & Installation
 ^^^^^^^^^^^^^^^^^^^^
 
 - 1 For the node1 in RegionOne, clone the code from Octavia repository to /opt/stack/ .
-  Then make some changes to Octavia, so that we can build the management network in multiple regions manually.Here we give the following comment example.
+  Then make some changes to Octavia, so that we can build the management network in multiple regions manually. Here we give the following comment example.
 
   - First, comment the following lines in the **octavia_init** function in octavia/devstack/plugin.sh .
 
@@ -68,8 +68,7 @@ Setup & Installation
         ENABLED_SERVICES+=,octavia,o-cw,o-hk,o-hm,o-api
 
 - 3 If users only want to deploy Octavia in RegionOne, the following two
-  steps can be skipped. After the DevStack installation in node1 is completed.
-  For the node2 in RegionTwo, clone the code from Octavia repository to
+  steps can be skipped. After the DevStack installation in node1 is completed. For the node2 in RegionTwo, clone the code from Octavia repository to
   /opt/stack/. Here we need to modify plugin.sh in five sub-steps.
 
   - First, since Keystone is installed in RegionOne and shared by other
