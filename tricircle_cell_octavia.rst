@@ -16,8 +16,7 @@ Setup & Installation
 ^^^^^^^^^^^^^^^^^^^^
 
 - 1 For the node1 in RegionOne, clone the code from Octavia repository to /opt/stack/ .
-  Then make some changes to Octavia, so that we can build the management network in multiple regions manually.
-  Here we give the following comment example.
+  Then make some changes to Octavia, so that we can build the management network in multiple regions manually. Here we give the following comment example.
 
   - First, comment the following lines in the **octavia_init** function in octavia/devstack/plugin.sh .
 
