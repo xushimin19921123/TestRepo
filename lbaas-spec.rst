@@ -6,13 +6,17 @@ Background
 ==========
 
 Currently, LBaaS (Load-Balancing-as-a-Service) is not supported in the
-Tricircle. This spec is to describe how LBaaS will be implemented in
-the Tricircle. LBaaS is an advanced service of Neutron, which allows for
+Tricircle. Meanwhile, Multi-cell support of Nova cell v2 is under development.
+This spec is to describe how LBaaS with Nova cell v2 will be implemented in the Tricircle.
+
+LBaaS is an advanced service of Neutron, which allows for
 proprietary and open-source load balancing technologies to drive the actual
 load balancing of requests. Based on the networking guide of Ocata release,
 LBaaS can be configured with an agent or Octavia. Given that the OpenStack
 community try to take Octavia as the reference implementation of LBaaS, we
 only enable LBaaS based on Octavia in the Tricircle.
+
+
 
 Different from existing LBaaS implementation, Octavia accomplishes its
 delivery of load balancing services by managing a fleet of virtual machines,
@@ -28,23 +32,23 @@ neutrons are managed by the central neutron. As a result, in order to adapt
 the central-local design and the amphorae mechanism of
 Octavia, we plan to deploy LBaaS as follows. ::
 
-                +---------------------------+
-                |                           |
-                |      Central Neutron      |
-                |         Nova API          |
-                |                           |
-                +---------------------------+
-                       Central Region
+                    +---------------------------+
+                    |                           |
+                    |      Central Neutron      |
+                    |         Nova API          |
+                    |                           |
+                    +---------------------------+
+                           Central Region
 
-  +----------------------------+    +-----------------------------+
-  |     +----------------+     |    |     +----------------+      |
-  |     |  LBaaS Octavia |     |    |     |  LBaaS Octavia |      |
-  |     +----------------+     |    |     +----------------+      |
-  | +------+ +---------------+ |    | +-------+ +---------------+ |
-  | | Nova | | Local Neutron | |    | | Nova  | | Local Neutron | |
-  | +------+ +---------------+ |    | +-------+ +---------------+ |
-  +----------------------------+    +-----------------------------+
-            Region One                          Region Two
+  +----------------------------------+    +----------------------------------+
+  |        +----------------+        |    |       +----------------+         |
+  |        |  LBaaS Octavia |        |    |       |  LBaaS Octavia |         |
+  |        +----------------+        |    |       +----------------+         |
+  | +-----------+  +---------------+ |    | +-----------+  +---------------+ |
+  | | Nova Cell |  | Local Neutron | |    | | Nova Cell |  | Local Neutron | |
+  | +-----------+  +---------------+ |    | +-----------+  +---------------+ |
+  +----------------------------------+    +----------------------------------+
+                Region One                             Region Two
 
 As demonstrated in the figure above, for each region where a local neutron
 is installed, admins can optionally choose to configure and install Octavia.

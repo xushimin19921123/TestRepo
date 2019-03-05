@@ -223,7 +223,7 @@ Setup & Installation
     stack1 has two nova-conductor services, because one of them is a super
     conductor service.
 
-    After you run "compute service list" in step5, you only see services in node1, like::
+    After you run "compute service list" in step5, if you only see services in node1, like::
 
     +----+------------------+--------+----------+---------+-------+----------------------------+
     | ID | Binary           | Host   | Zone     | Status  | State | Updated At                 |
