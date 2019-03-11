@@ -679,8 +679,8 @@ How to play
 
     .. code-block:: console
 
-        $ nova --os-region-name=RegionOne boot --flavor 1 --image $image_id --nic net-id=$net1_id backend1
-        $ nova --os-region-name=RegionOne boot --flavor 1 --image $image_id --nic net-id=$net1_id backend2
+        $ openstack --os-region-name CentralRegion server create --flavor 1 --image $image_id --nic net-id=$net1_id --availability-zone az1 backend1
+        $ openstack --os-region-name CentralRegion server create --flavor 1 --image $image_id --nic net-id=$net1_id --availability-zone az1 backend2
 
         +--------------------------------------+-----------------------------------------------------------------+
         | Property                             | Value                                                           |
@@ -734,7 +734,7 @@ How to play
         | user_id                              | fdf37c6259544a9294ae8463e9be063c                                |
         +--------------------------------------+-----------------------------------------------------------------+
 
-        $ nova --os-region-name=RegionOne list
+        $ openstack --os-region-name CentralRegion server list
 
         +--------------------------------------+----------+--------+------------+-------------+------------------+
         | ID                                   | Name     | Status | Task State | Power State | Networks         |
@@ -986,7 +986,7 @@ How to play
 
     .. code-block:: console
 
-        $ nova --os-region-name=RegionTwo boot --flavor 1 --image $image_id --nic net-id=$net1_id backend3
+        $ openstack --os-region-name CentralRegion server create --flavor 1 --image $image_id --nic net-id=$net1_id --availability-zone az2 backend3
 
         +-------------------------------------+-----------------------------------------------------------------+
         | Field                               | Value                                                           |
@@ -1208,7 +1208,7 @@ How to play
 
     .. code-block:: console
 
-        $ nova --os-region-name=RegionTwo boot --flavor 1 --image $image_id --nic net-id=$net2_id backend4
+        $ openstack --os-region-name CentralRegion server create --flavor 1 --image $image_id --nic net-id=$net2_id --availability-zone az2 backend4
 
         +-------------------------------------+-----------------------------------------------------------------+
         | Field                               | Value                                                           |
