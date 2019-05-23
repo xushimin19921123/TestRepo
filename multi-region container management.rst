@@ -59,36 +59,38 @@ a local neutron. In order to accomplish container management in Tricircle,
 admins need to configure and install zun,docker,kuryr and kuryr-libnetwork.
 Under the Central_Neutron-Local_Neutron scenario, we plan to let zun employ
 the central neutron in Central Region to manage networking resources, meanwhile
-still employ docker engine in its own region to manage docker container and docker network.
+still employ docker engine in its own region to manage docker container instance.
 Then, use kuryr/kuryr-libnetwork to connect the container network to the neutron network.
 Hence, the workflow of container creation in Tricircle can be described as follows. ::
 
  +------------------------------------------------------------------------------------------------------------------------------------------------------+
  |                                                         +---------------+    +---------------+    +-----------------+    +-------------------------+ |
- |                                                     +-->| NeutronClient | -->| Local Neutron | -->| Central Neutron | -->|Neutron network and port | |
- |                                                     |   +---------------+    +---------------+    +-----------------+    +-------------^-----------+ |
+ |                                                     +-->| neutronClient | -->| Local Neutron | -->| Central Neutron | -->|Neutron network and port | |
+ |                                                     |   +---------------+    +---------------+    +-----------------+    +-------------+-----------+ |
  |                                                     |                                                                                  |             |
- |                                                     |   +------------------+    +------------------------+                             |             |
- |                                                     +-->| kuryr/libnetwork | -->|Docker network and port |<------------Binding---------+             |
- | +-------------+    +---------+    +-------------+   |   +------------------+    +------------------------+                              \            |
- | | Zun Request | -->| Zun API | -->| Zun Compute | --+                                                                                    +           |
- | +-------------+    +---------+    +-------------+   |   +--------------+    +--------------+                                             |           |
- |                                                     +-->| GlanceClient | -->| docker image |                                       +-----+-----+     |
- |                                                     |   +--------------+    +------+-------+                                       | Container |     |
- |                                                     |                              |                                               +-----+-----+     |
- |                                                     |   +------------+    +--------V--------+                                            |           |
- |                                                     +-->| Docker API | -->| docker instance | -------------------------------------------+           |
- |                                                         +------------+    +-----------------+                                                        |
+ |                                                     |   +------------------+                                         +-----------------+-----------+ |
+ |                                                     +-->| kuryr/libnetwork | --------------------------------------->|Connect container to network | |
+ | +-------------+    +---------+    +-------------+   |   +------------------+                                         +-----------------+-----------+ |
+ | | Zun Request | -->| Zun API | -->| Zun Compute | --+                                                                                  |             |
+ | +-------------+    +---------+    +-------------+   |   +--------------+    +--------------+                                           |             |
+ |                                                     +-->| glanceClient | -->| docker image |                                     +-----+-----+       |
+ |                                                     |   +--------------+    +------+-------+                                     | Container |       |
+ |                                                     |                              |                                             +-----+-----+       |
+ |                                                     |   +------------+    +--------V---------------+                                   |             |
+ |                                                     +-->| Docker API | -->| Create docker instance | ----------------------------------+             |
+ |                                                         +------------+    +------------------------+                                                 |
  +------------------------------------------------------------------------------------------------------------------------------------------------------+
                                               Fig. 2 The multi-region container creation workflow.
 
 Specifically, when a tenant attempts to create container, he/she needs to
-send a request to Zun API. ………….
-
-
-Container network connectivity in multi-region scenario
-=======================================================
-
+send a request to Zun API. Then it will call zun compute driver to create
+a container in four sub-steps. Firstly, call network_api(neutronClient) to
+process neutron network(use Central_Neutron-Local_Neutron mechanism). Secondly,
+call image_api(glanceClient) to provide docker image. Thirdly, call docker API
+to create docker instance. Finally, use kuryr connect container to neutron network.
+So far, a container can successfully created in Tricircle environment. Considering
+the Tricircle is dedicated to enabling networking automation across Neutrons, so we
+can implement the interconnection among multiple containers in multi-region scenario.
 As shown below. ::
 
   +------------------------+   +-------------------+   +------------------------+
@@ -114,15 +116,11 @@ As shown below. ::
   +------------------------+   +-------------------+   +------------------------+
          Region One               Central Region              Region Two
 
-        Fig. 3 The network connectivity of containers in multi-region scenario.
+          Fig. 3 The container interconnection in multi-region scenario.
 
-As shown in Fig. 3, suppose that a load balancer is created in Region one,
-and hence a listener, a pool, and two members in subnet1. When adding an
-instance in Region Two to the pool as a member, the local neutron creates
-the network in Region Two. Members that locate in different regions yet
-reside in the same subnet form a shared VLAN/VxLAN network. As a result,
-the Tricircle supports adding members that locates in different regions to
-a pool.
+Although, combined with Tricircle, we call implement the container deletion,
+the container modification, the container lookup and so on in multi-region scenario.
+That means we can implement container management multi-region scenario.
 
 
 Data Model Impact
