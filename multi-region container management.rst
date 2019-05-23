@@ -118,9 +118,9 @@ As shown below. ::
 
           Fig. 3 The container interconnection in multi-region scenario.
 
-Although, combined with Tricircle, we call implement the container deletion,
+Although, combined with Tricircle, we can also implement the container deletion,
 the container modification, the container lookup and so on in multi-region scenario.
-That means we can implement container management multi-region scenario.
+That means we can implement container management in multi-region scenario.
 
 
 Data Model Impact
