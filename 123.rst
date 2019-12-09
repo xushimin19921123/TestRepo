@@ -29,6 +29,7 @@ the source code for both projects.
 
 - 1 For Zun project, wo need modify the /zun/zun/common/clients.py file.
     In the **neutron** function, change the following:
+    (The '+' sign represents the add line)
 
     .. code-block:: console
 
@@ -50,6 +51,7 @@ the source code for both projects.
 
 - 2 For kuryr project, wo need modify the /kuryr/kuryr/lib/utils.py file.
     In the **get_neutron_client** function, change the following:
+    (The '+' sign represents the add line)
 
     .. code-block:: console
 
