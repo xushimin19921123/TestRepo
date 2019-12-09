@@ -1,0 +1,54 @@
+====================================================
+Installation guide for Tricircle work with Container
+====================================================
+
+Introduction
+^^^^^^^^^^^^
+In the multi pod installation guide, we have discussed how to
+deploy the Tricircle in multi-region scenario with DevStack.
+However, the previous installation guides have been on how to
+manage virtual machines using tricircle and Nova in cross-region
+openstack cloud environments. So, multi-region container management
+is not supported in the Tricircle. Meanwhile, OpenStack uses Zun
+component to provide container management service, OpenStack also use
+kuyr component and kuryr-libnetwork component to provide container network.
+In view of the Tricircle Central_Neutron-Local_Neutron fashion, Tricircle work
+with zun and kuryr will provide a cross-region container management solution.
+This guide is to describe how tricircle work with container management and how
+to deploy a multi-region container environment.
+
+Prerequisite
+^^^^^^^^^^^^
+In this guide, we need specific versions of the zun project and
+kuryr project source code. The source code versions of both projects
+must be the Train version and upper. If not, we need to manually change
+the source code for both projects.
+
+- 1 For Zun project, wo need modify the /zun/zun/common/clients.py file.
+    In the **get_neutron_client** function, change the following:
+
+    .. code-block:: console
+
+        def neutron(self):
+            if self._neutron:
+                return self._neutron
+
+            session = self.keystone().session
+            session.verify = self._get_client_option('neutron', 'ca_file') or True
+            if self._get_client_option('neutron', 'insecure'):
+                session.verify = False
+            endpoint_type = self._get_client_option('neutron', 'endpoint_type')
+        +   region_name = self._get_client_option('neutron', 'region_name')
+            self._neutron = neutronclient.Client(session=session,
+                                                 endpoint_type=endpoint_type,
+        +                                        region_name=region_name)
+
+            return self._neutron
+
+- 2 For kuryr project, wo need modify the /kuryr/kuryr/lib/utils.py file.
+
+Setup
+^^^^^
+
+How to play
+^^^^^^^^^^^
