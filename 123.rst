@@ -4,6 +4,7 @@ Installation guide for Tricircle work with Container
 
 Introduction
 ^^^^^^^^^^^^
+
 In the multi pod installation guide, we have discussed how to
 deploy the Tricircle in multi-region scenario with DevStack.
 However, the previous installation guides have been on how to
@@ -17,15 +18,17 @@ with zun and kuryr will provide a cross-region container management solution.
 This guide is to describe how tricircle work with container management and how
 to deploy a multi-region container environment.
 
+
 Prerequisite
 ^^^^^^^^^^^^
+
 In this guide, we need specific versions of the zun project and
 kuryr project source code. The source code versions of both projects
 must be the Train version and upper. If not, we need to manually change
 the source code for both projects.
 
 - 1 For Zun project, wo need modify the /zun/zun/common/clients.py file.
-    In the **get_neutron_client** function, change the following:
+    In the **neutron** function, change the following:
 
     .. code-block:: console
 
@@ -46,9 +49,27 @@ the source code for both projects.
             return self._neutron
 
 - 2 For kuryr project, wo need modify the /kuryr/kuryr/lib/utils.py file.
+    In the **get_neutron_client** function, change the following:
+
+    .. code-block:: console
+
+        def get_neutron_client(*args, **kwargs):
+            conf_group = kuryr_config.neutron_group.name
+            auth_plugin = get_auth_plugin(conf_group)
+            session = get_keystone_session(conf_group, auth_plugin)
+            endpoint_type = getattr(getattr(cfg.CONF, conf_group), 'endpoint_type')
+        +   region_name = getattr(getattr(cfg.CONF, conf_group), 'region_name')
+
+            return client.Client(session=session,
+                                 auth=auth_plugin,
+                                 endpoint_type=endpoint_type,
+        +                        region_name=region_name)
+
 
 Setup
 ^^^^^
 
+
 How to play
 ^^^^^^^^^^^
+
