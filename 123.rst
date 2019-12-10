@@ -100,9 +100,9 @@ Central Region, the node2 run as RegionTwo.
     - For Zun in node1, modify the /etc/zun/zun.conf
 
         .. csv-table::
-            :header: "Option", "Value"
+            :header: "Group", "Option", "Value"
 
-            [neutron_client] region_name, RegionOne
+            [neutron_client], region_name, RegionOne
 
     - Restart all the services of Zun in node1.
 
@@ -113,9 +113,9 @@ Central Region, the node2 run as RegionTwo.
     - For Kuryr in node1, modify the /etc/kuryr/kuryr.conf
 
         .. csv-table::
-            :header: "Option", "Value"
+            :header: "Group", "Option", "Value"
 
-            [neutron] region_name, RegionOne
+            [neutron], region_name, RegionOne
 
     - Restart all the services of Kuryr in node1.
 
@@ -126,9 +126,9 @@ Central Region, the node2 run as RegionTwo.
     - For Zun in node2, modify the /etc/zun/zun.conf
 
         .. csv-table::
-            :header: "Option", "Value"
+            :header: "Group", "Option", "Value"
 
-            [neutron_client] region_name, RegionTwo
+            [neutron_client], region_name, RegionTwo
 
     - Restart all the services of Zun in node2.
 
@@ -139,9 +139,9 @@ Central Region, the node2 run as RegionTwo.
     - For Kuryr in node2, modify the /etc/kuryr/kuryr.conf
 
         .. csv-table::
-            :header: "Option", "Value"
+            :header: "Group", "Option", "Value"
 
-            [neutron] region_name, RegionTwo
+            [neutron], region_name, RegionTwo
 
     - Restart all the services of Zun in node2.
 
