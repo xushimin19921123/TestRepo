@@ -279,7 +279,8 @@ How to play
 
 - 3 Create container in RegionOne and RegionTwo.
 
-    .. note:: We can give container a specific command to run it continually, e.g. "sudo nc -l -p 5000" .
+    .. note::
+        We can give container a specific command to run it continually, e.g. "sudo nc -l -p 5000" .
 
     .. code-block:: console
 
