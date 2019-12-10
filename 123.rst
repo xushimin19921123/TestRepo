@@ -6,11 +6,11 @@ Introduction
 ^^^^^^^^^^^^
 
 In the `Multi-pod Installation with DevStack <https://docs.openstack.org/tricircle/latest/install/installation-guide.html#multi-pod-installation-with-devstack>`_ ,
-we have discussed how to deploy the Tricircle in multi-region scenario with DevStack.
+we have discussed how to deploy Tricircle in multi-region scenario with DevStack.
 However, the previous installation guides have been on how to
 manage virtual machines using tricircle and Nova in cross-region
 openstack cloud environments. So, multi-region container management
-is not supported in the Tricircle. Meanwhile, OpenStack uses Zun
+is not supported in Tricircle. Meanwhile, OpenStack uses Zun
 component to provide container management service, OpenStack also use
 kuyr component and kuryr-libnetwork component to provide container network.
 In view of the Tricircle Central_Neutron-Local_Neutron fashion, Tricircle work
@@ -25,10 +25,10 @@ Prerequisite
 In this guide, we need specific versions of the zun project and
 kuryr project source code. The source code versions of both projects
 must be the Train version and upper. If not, we need to manually change
-the source code for both projects.
+the source code for both projects. The modification example is as follows:
 
-- 1 For Zun project, wo need modify the /zun/zun/common/clients.py file.
-    In the **neutron** function, change the following:
+- 1 Zun Source Code Modification:
+    For Zun project, we need modify the **neutron** function in /zun/zun/common/clients.py file.
     (The '+' sign represents the add line)
 
     .. code-block:: console
@@ -49,8 +49,8 @@ the source code for both projects.
 
             return self._neutron
 
-- 2 For kuryr project, wo need modify the /kuryr/kuryr/lib/utils.py file.
-    In the **get_neutron_client** function, change the following:
+- 2 Kuryr Source Code Modification:
+    For kuryr project, we need modify the **get_neutron_client** function in /kuryr/kuryr/lib/utils.py file.
     (The '+' sign represents the add line)
 
     .. code-block:: console
