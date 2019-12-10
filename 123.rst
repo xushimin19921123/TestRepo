@@ -5,8 +5,8 @@ Installation guide for Tricircle work with Container
 Introduction
 ^^^^^^^^^^^^
 
-In the multi pod installation guide, we have discussed how to
-deploy the Tricircle in multi-region scenario with DevStack.
+In the `Multi-pod Installation with DevStack <https://docs.openstack.org/tricircle/latest/install/installation-guide.html#multi-pod-installation-with-devstack>`_ ,
+we have discussed how to deploy the Tricircle in multi-region scenario with DevStack.
 However, the previous installation guides have been on how to
 manage virtual machines using tricircle and Nova in cross-region
 openstack cloud environments. So, multi-region container management
